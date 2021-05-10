@@ -1,4 +1,4 @@
-defmodule FindHotelParser.Repo.Migrations.AddObanJobsTable do
+defmodule Parser.Repo.Migrations.AddObanJobsTable do
   use Ecto.Migration
 
   defdelegate up, to: Oban.Migrations

@@ -1,5 +1,5 @@
-defmodule FindHotelParser.Csv.Utils do
-  alias FindHotelParser.Repo
+defmodule Parser.Mapper.Utils do
+  alias Parser.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
   def parse_csv(parse) do

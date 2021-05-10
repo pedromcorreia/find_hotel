@@ -1,4 +1,4 @@
-defmodule FindHotelParser.Repo.Migrations.CreateCoordinate do
+defmodule Parser.Repo.Migrations.CreateCoordinate do
   use Ecto.Migration
 
   def change do

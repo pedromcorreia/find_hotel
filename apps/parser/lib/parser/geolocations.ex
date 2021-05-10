@@ -1,13 +1,13 @@
-defmodule FindHotelParser.Geolocations do
+defmodule Parser.Geolocations do
   @moduledoc """
   The Geolocations context.
   """
 
   import Ecto.Query, warn: false
-  alias FindHotelParser.Repo
+  alias Parser.Repo
 
   require Logger
-  alias FindHotelParser.Geolocations.Coordinate
+  alias Parser.Geolocations.Coordinate
 
   @doc """
   Gets a single coordinate by ip_address.

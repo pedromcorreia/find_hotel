@@ -1,8 +1,8 @@
-defmodule FindHotelParser.Worker do
+defmodule Parser.Workers do
   @moduledoc """
   A Module responsible to receive some data and run the correspond worker
   """
-  alias FindHotelParser.Repo
+  alias Parser.Repo
 
   def enqueue_job(worker, params, opts \\ []) do
     params

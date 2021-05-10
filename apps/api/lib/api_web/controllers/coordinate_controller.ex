@@ -1,7 +1,7 @@
 defmodule ApiWeb.CoordinateController do
   use ApiWeb, :controller
 
-  alias FindHotelParser.Geolocations
+  alias Parser.Geolocations
   action_fallback(ApiWeb.FallbackController)
 
   def ip_address(conn, %{"ip_address" => ip_address}) do

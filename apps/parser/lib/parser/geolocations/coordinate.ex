@@ -1,4 +1,4 @@
-defmodule FindHotelParser.Geolocations.Coordinate do
+defmodule Parser.Geolocations.Coordinate do
   use Ecto.Schema
   import Ecto.Changeset
 

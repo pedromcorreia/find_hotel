@@ -44,7 +44,7 @@ defmodule Api.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:find_hotel_parser, in_umbrella: true}
+      {:parser, in_umbrella: true}
     ]
   end
 
