@@ -7,7 +7,9 @@
 # all use the same configuration file. If you want different
 # configurations or dependencies per app, it is best to
 # move said applications out of the umbrella.
-import Config
+use Mix.Config
+
+import_config "../apps/*/config/config.exs"
 
 # Sample configuration:
 #
