@@ -1,4 +1,5 @@
 defmodule FindHotelParser.Csv.Utils do
+  alias FindHotelParser.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
   def parse_csv(parse) do
@@ -21,4 +22,14 @@ defmodule FindHotelParser.Csv.Utils do
     |> Stream.with_index()
     |> Map.new(fn {val, num} -> {column_names[num], val} end)
   end
+
+  def insert_row(row, model) do
+    model
+    |> struct
+    |> model.changeset(row)
+    |> Repo.insert()
+  end
+
+  def time_elapsed(init_timestamp),
+    do: NaiveDateTime.diff(NaiveDateTime.utc_now(), init_timestamp)
 end

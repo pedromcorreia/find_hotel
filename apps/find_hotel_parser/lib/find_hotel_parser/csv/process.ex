@@ -1,8 +1,7 @@
 defmodule FindHotelParser.Csv.Process do
   require Logger
   alias NimbleCSV.RFC4180, as: CSV
-  alias FindHotelParser.Csv.Utils
-  alias FindHotelParser.Repo
+  import FindHotelParser.Csv.Utils
 
   @inital_result %{errors: 0, success: 0}
 
@@ -14,15 +13,15 @@ defmodule FindHotelParser.Csv.Process do
   end
 
   defp stream_process(path, model) do
-    columns = Utils.parse_columns(path)
+    columns = parse_columns(path)
 
     path
-    |> Utils.parse_csv()
+    |> parse_csv()
     |> Enum.take(1000)
     |> Task.async_stream(fn row ->
       row
-      |> Utils.parse_row(columns)
-      |> insert_data(model)
+      |> parse_row(columns)
+      |> insert_row(model)
     end)
     |> result_process()
   end
@@ -32,8 +31,6 @@ defmodule FindHotelParser.Csv.Process do
     |> Enum.map_reduce(
       @inital_result,
       fn {:ok, result}, %{errors: errors, success: success} ->
-        result
-
         case result do
           {:error, _} ->
             {nil, %{errors: errors + 1, success: success}}
@@ -44,14 +41,4 @@ defmodule FindHotelParser.Csv.Process do
       end
     )
   end
-
-  defp insert_data(row, model) do
-    model
-    |> struct
-    |> model.changeset(row)
-    |> Repo.insert()
-  end
-
-  defp time_elapsed(init_timestamp),
-    do: NaiveDateTime.diff(NaiveDateTime.utc_now(), init_timestamp)
 end

@@ -11,6 +11,15 @@ defmodule ApiWeb.CoordinateView do
   end
 
   def render("coordinate.json", %{coordinate: coordinate}) do
-    %{id: coordinate.id}
+    %{
+      id: coordinate.id,
+      ip_address: coordinate.ip_address,
+      country_code: coordinate.country_code,
+      country: coordinate.country,
+      city: coordinate.city,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+      mystery_value: coordinate.mystery_value
+    }
   end
 end
