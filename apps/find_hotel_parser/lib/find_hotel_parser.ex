@@ -12,7 +12,12 @@ defmodule FindHotelParser do
       :world
 
   """
-  def hello do
-    :world
+  def init(path) do
+    path = "/Users/pedro.correia/Workspace/find_hotel_parser/priv/data_dump.csv"
+
+    FindHotelParser.Worker.enqueue_job(FindHotelParser.Workers.LoadCoordinate, %{
+      path: path,
+      count: 0
+    })
   end
 end
