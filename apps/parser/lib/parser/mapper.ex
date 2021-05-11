@@ -1,22 +1,47 @@
 defmodule Parser.Mapper do
+  @moduledoc """
+  This is the Parser Mapper module.
+  Responsible to parse the path,
+  validate data with the passing schema and save in database.
+  """
   require Logger
   alias Parser.Mapper.Utils
 
   @inital_result %{errors: 0, success: 0}
 
-  def run(path, model) do
-    with true <- File.exists?(path) do
-      init_timestamp = NaiveDateTime.utc_now()
+  @doc """
+  Respond with given `path` and `schema`.
 
-      {_, result_parser} = stream_process(path, model)
-      {:ok, Map.put(result_parser, :time_elapsed, Utils.time_elapsed(init_timestamp))}
-    else
+  Returns `{:ok, %(time_elapsed: 1, errors: errors 1, success: 1}`.
+  Returns `{:error, :invalid_file}`.
+
+  ## Examples
+
+      iex> Mapper.run("path", Parser.Geolocations.Coordinate)
+      {:ok, %(time_elapsed: 1, errors: errors 1, success: 1}}
+
+      iex> Mapper.run("path", InvalidSchema)
+      {:ok, %(time_elapsed: 1, errors: errors 2, success: 0}}
+
+      iex> Mapper.run("invalid_path", Parser.Geolocations.Coordinate)
+      {:error, :invalid_path}
+
+  """
+  @spec run(String.t(), atom()) :: {:ok, map()} | {:error, :invalid_file}
+  def run(path, schema) do
+    case File.exists?(path) do
+      true ->
+        init_timestamp = NaiveDateTime.utc_now()
+
+        {_, result_parser} = stream_process(path, schema)
+        {:ok, Map.put(result_parser, :time_elapsed, Utils.time_elapsed(init_timestamp))}
+
       _ ->
         {:error, :invalid_file}
     end
   end
 
-  defp stream_process(path, model) do
+  defp stream_process(path, schema) do
     columns = Utils.parse_columns(path)
 
     path
@@ -24,7 +49,7 @@ defmodule Parser.Mapper do
     |> Task.async_stream(fn row ->
       row
       |> Utils.parse_row(columns)
-      |> Utils.insert_row(model)
+      |> Utils.insert_row(schema)
     end)
     |> result_process()
   end

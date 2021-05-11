@@ -17,6 +17,10 @@ defmodule FindHotel.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [{:excoveralls, "~> 0.10", only: :test}]
+    [
+      {:excoveralls, "~> 0.10", only: :test},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+    ]
   end
 end

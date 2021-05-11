@@ -1,9 +1,22 @@
 defmodule Parser.Workers.CoordinateWorker do
+  @moduledoc """
+  Worker to asynchronously run Parser.Mapper with Coordinate schema.
+  """
+
   require Logger
   use Oban.Worker, queue: :default, max_attempts: 5
   alias Parser.Geolocations.Coordinate
 
-  @impl Oban.Worker
+  @doc """
+  Perform asynchronously Parser.Mapper.run with giver params and Coordinate.
+
+  ## Examples
+
+      iex> CoordinateWorker.perform(Oban_Job)
+      :ok
+
+  """
+  @spec perform(Oban.Job.t()) :: :ok
   def perform(%Oban.Job{args: %{"path" => path}}) do
     case Parser.Mapper.run(path, Coordinate) do
       {:ok, result} ->
