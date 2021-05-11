@@ -1,5 +1,8 @@
 
 # Find Hotel Test
+
+## Process
+
 > I tried to divide my resolution in a linear progression with my reasoning, problems faced, and so on.
 
 ### CSV processing
@@ -23,15 +26,15 @@ After creating the validations, I ran it again and inserted the valid entries in
 
 With the functions parallel, the validations and creations in the bank was reduced to less than an hour of processing.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/341f2b7c-850e-4708-9b4b-c155042cdf5d/Untitled.png](https: // s3-us-west -2.amazonaws.com/secure.notion-static.com/341f2b7c-850e-4708-9b4b-c155042cdf5d/Untitled.png)
+![image](https://user-images.githubusercontent.com/11159324/117871731-257f9200-b274-11eb-92fd-b73c17723b30.png)
 
 Ok, the result was expressive, but not ideal, as no user could be waiting for your answer, and a timeout could happen in the middle of the process, for that, my first attempt was to create a Genserver to deal with this problem:
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9236b095-0c06-4918-9041-55b84fffe957/Untitled.png](https: // s3-us-west -2.amazonaws.com/secure.notion-static.com/9236b095-0c06-4918-9041-55b84fffe957/Untitled.png)
+![image](https://user-images.githubusercontent.com/11159324/117871788-33351780-b274-11eb-8d56-734dd909eff5.png)
 
 And the result was good, the process happened in the background, with that the process happened in parallel and in the background, validating my ideas, I got as a result for 1_000 records:
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fbd07b9d-d98d-47e2-9cae-310a1b0def46/Untitled.png](https: // s3-us-west -2.amazonaws.com/secure.notion-static.com/fbd07b9d-d98d-47e2-9cae-310a1b0def46/Untitled.png)
+![image](https://user-images.githubusercontent.com/11159324/117871829-3cbe7f80-b274-11eb-8673-0fbe87969201.png)
 
 However, I noticed some problems with this approach that I have been working with Genserver:
 
@@ -44,7 +47,7 @@ Okay, knowing these problems, we could go for an approach to use [Oban] (https:/
 
 Okay, but I realized one of the specifications was that the resolution has two applications, a Parser to process the files and a web to consume the Parser's data, my first idea was to create two applications, a web with only phoenix and another ecto project containing the whole process, however, one of the points that most intrigued me, is that the repository should be private, to get around this, a long time ago, 2015, I worked with an Umbrella project, very similar where we had a web interface, and it consumed the data from a Parser, so that was my choice.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ced00245-dd68-458a-8d32-43c1ec00c7a7/Untitled_Diagram_ (7) .png](https: // s3- us-west-2.amazonaws.com/secure.notion-static.com/ced00245-dd68-458a-8d32-43c1ec00c7a7/Untitled_Diagram_(7).png)
+![Untitled Diagram (7)](https://user-images.githubusercontent.com/11159324/117871853-421bca00-b274-11eb-8032-c18563077cf2.png)
 
 There are some problems with this approach, such as:
 
@@ -52,3 +55,41 @@ There are some problems with this approach, such as:
 2. For large projects maintenance is complex, and decoupling applications is difficult;
 
 **TL; DR** This test was the most complex tests I ever received, but it was nice to solve and think in different cases.
+
+## How to run?
+
+### Get Started
+To run this project you, docker and docker-compose need to be installed on your machine.
+
+Clone this repository
+
+    git clone git@github.com:pedromcorreia/find_hotel.git
+    cd find_hotel
+
+Build project with docker
+
+    docker-compose build
+
+Create database and run migrations
+
+    docker-compose run --rm web mix do ecto.create, ecto.migrate
+
+Run all services
+
+    docker-compose up
+
+Use -d to run in the background. Use --build to ensure images are rebuilt. Use docker-compose down to stop all services.
+
+Run integration tests
+
+    docker-compose run --rm web mix test
+
+HTTP endpoint available at: http://localhost:4000/
+
+Attach iex
+
+
+    docker-compose run --rm web bash
+Attach session
+
+    docker attach (docker ps -lq)

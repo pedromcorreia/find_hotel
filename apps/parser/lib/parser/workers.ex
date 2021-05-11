@@ -4,7 +4,7 @@ defmodule Parser.Workers do
   """
   alias Parser.Repo
 
-  def enqueue_job(worker, params = %{path: path}, opts \\ []) do
+  def enqueue_job(worker, params = %{path: _path}, opts \\ []) do
     params
     |> worker.new(opts)
     |> Repo.insert()

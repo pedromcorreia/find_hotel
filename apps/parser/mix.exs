@@ -31,7 +31,7 @@ defmodule Parser.MixProject do
     [
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
-      {:countries, git: "git@github.com:pedromcorreia/countries.git"},
+      {:countries, git: "https://github.com/pedromcorreia/countries.git"},
       {:nimble_csv, "~> 1.1"},
       {:oban, "~> 2.6.1"}
     ]

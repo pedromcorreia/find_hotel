@@ -4,7 +4,7 @@ config :parser, Parser.Repo,
   database: "parser",
   username: "postgres",
   password: "postgres",
-  hostname: "localhost"
+  hostname: "db"
 
 config :parser, Oban,
   repo: Parser.Repo,
@@ -12,5 +12,3 @@ config :parser, Oban,
   queues: [default: 10]
 
 config :parser, ecto_repos: [Parser.Repo]
-
-
