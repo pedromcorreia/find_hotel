@@ -1,6 +1,5 @@
 defmodule ParserTest do
-  use ExUnit.Case
-  doctest Parser
+  use Parser.RepoCase
 
   test "greets the world" do
     assert Parser.hello() == :world
