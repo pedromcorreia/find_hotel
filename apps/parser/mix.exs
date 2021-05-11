@@ -13,7 +13,8 @@ defmodule Parser.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      aliases: aliases()
+      aliases: aliases(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -32,7 +33,8 @@ defmodule Parser.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:countries, git: "git@github.com:pedromcorreia/countries.git"},
       {:nimble_csv, "~> 1.1"},
-      {:oban, "~> 2.6.1"}
+      {:oban, "~> 2.6.1"},
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 

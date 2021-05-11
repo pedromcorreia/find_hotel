@@ -4,7 +4,7 @@ defmodule Parser.Mapper do
 
   @inital_result %{errors: 0, success: 0}
 
-  def init(path, model) do
+  def run(path, model) do
     init_timestamp = NaiveDateTime.utc_now()
 
     {_, result_parser} = stream_process(path, model)
@@ -16,7 +16,6 @@ defmodule Parser.Mapper do
 
     path
     |> Utils.parse_csv()
-    |> Enum.take(1000)
     |> Task.async_stream(fn row ->
       row
       |> Utils.parse_row(columns)
