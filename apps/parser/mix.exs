@@ -33,8 +33,7 @@ defmodule Parser.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:countries, git: "git@github.com:pedromcorreia/countries.git"},
       {:nimble_csv, "~> 1.1"},
-      {:oban, "~> 2.6.1"},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:oban, "~> 2.6.1"}
     ]
   end
 

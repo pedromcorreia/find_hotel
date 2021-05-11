@@ -5,10 +5,15 @@ defmodule Parser.Mapper do
   @inital_result %{errors: 0, success: 0}
 
   def run(path, model) do
-    init_timestamp = NaiveDateTime.utc_now()
+    with true <- File.exists?(path) do
+      init_timestamp = NaiveDateTime.utc_now()
 
-    {_, result_parser} = stream_process(path, model)
-    {:ok, Map.put(result_parser, :time_elapsed, Utils.time_elapsed(init_timestamp))}
+      {_, result_parser} = stream_process(path, model)
+      {:ok, Map.put(result_parser, :time_elapsed, Utils.time_elapsed(init_timestamp))}
+    else
+      _ ->
+        {:error, :invalid_file}
+    end
   end
 
   defp stream_process(path, model) do
