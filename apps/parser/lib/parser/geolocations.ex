@@ -11,6 +11,7 @@ defmodule Parser.Geolocations do
 
   @doc """
   Gets a single coordinate by ip_address.
+  Or respond with nil.
 
   ## Examples
 

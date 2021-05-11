@@ -2,6 +2,7 @@ defmodule Parser.Geolocations.CoordinateTest do
   use Parser.RepoCase
 
   alias Parser.Geolocations.Coordinate
+  alias Parser.Mapper.Utils
 
   @valid_attrs %{
     ip_address: "68.153.157.57",
@@ -31,7 +32,10 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :ip_address, nil)
         )
 
-      refute changeset.valid?
+      assert changeset.errors == [
+               ip_address: {"must be valid ip", []},
+               ip_address: {"can't be blank", [validation: :required]}
+             ]
     end
 
     test "with invalid latitude number" do
@@ -41,7 +45,12 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :latitude, -91)
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [
+                 latitude:
+                   {"must be greater than %{number}",
+                    [{:validation, :number}, {:kind, :greater_than}, {:number, -90}]}
+               ]
 
       changeset =
         Coordinate.changeset(
@@ -49,7 +58,12 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :latitude, 91)
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [
+                 latitude:
+                   {"must be less than %{number}",
+                    [{:validation, :number}, {:kind, :less_than}, {:number, 90}]}
+               ]
     end
 
     test "with invalid longitude number" do
@@ -59,7 +73,12 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :longitude, -181)
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [
+                 longitude:
+                   {"must be greater than %{number}",
+                    [{:validation, :number}, {:kind, :greater_than}, {:number, -180}]}
+               ]
 
       changeset =
         Coordinate.changeset(
@@ -67,7 +86,12 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :longitude, 181)
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [
+                 longitude:
+                   {"must be less than %{number}",
+                    [{:validation, :number}, {:kind, :less_than}, {:number, 180}]}
+               ]
     end
 
     test "with invalid country name" do
@@ -77,7 +101,8 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :country, "Bra")
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [country: {"the country differs from the country code", []}]
     end
 
     test "with invalid country code" do
@@ -87,7 +112,8 @@ defmodule Parser.Geolocations.CoordinateTest do
           Map.put(@valid_attrs, :country_code, "Bra")
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [country: {"the country differs from the country code", []}]
     end
 
     test "with country name and country code different" do
@@ -99,7 +125,8 @@ defmodule Parser.Geolocations.CoordinateTest do
           |> Map.put(:country, "France")
         )
 
-      refute changeset.valid?
+      assert changeset.errors ==
+               [country: {"the country differs from the country code", []}]
     end
   end
 end
