@@ -1,6 +1,5 @@
 defmodule ParserTest do
   use Parser.RepoCase
-  import ExUnit.CaptureLog
 
   use Oban.Testing, repo: Parser.Repo
   alias Parser.Workers.CoordinateWorker
