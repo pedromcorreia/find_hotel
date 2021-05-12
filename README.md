@@ -64,6 +64,15 @@ This project is stored in heroku, you can check in https://boiling-citadel-18890
 Example:
 curl --request GET --url https://boiling-citadel-18890.herokuapp.com/api/coordinates/ip_address/38.111.125.236
 
+To load data you need ask access to heroku then run:
+
+    heroku run "POOL_SIZE=2" bash -a boiling-citadel-18890
+
+Then:
+
+    iex -S mix
+    Parser.init "/app/apps/parser/priv/data_dump.csv"
+
 ## Process and choices
 
 ### CSV processing
