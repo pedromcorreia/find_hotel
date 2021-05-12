@@ -92,4 +92,5 @@ Parser provide a schema already configured to coordinates, but you can configure
 ## Roadmap
 
 - Add custom migrations to enable a developer to create schema, worker with one command;
-- Add a way to read in S3 and perform.
+- Add a way to read in S3 and perform;
+- Remove the configs by environment and allow configuration by other apps.
