@@ -1,6 +1,6 @@
-## Combine
+## Parser
 
-A parser made with Elixir projects to coordinate projects.
+A parser made with Elixir to parse some coordinate data.
 
 
 ## Installation
