@@ -1,6 +1,67 @@
 # Find Hotel Test
 I tried to divide my resolution in a linear progression with my reasoning, problems faced, and so on.
 
+## How to run?
+
+### Get Started
+To run this project you, docker and docker-compose need to be installed on your machine.
+
+#### Clone this repository
+
+    git clone git@github.com:pedromcorreia/find_hotel.git
+    cd find_hotel
+
+#### Build project with docker
+
+    docker-compose build
+
+#### Create database and run migrations
+
+    docker-compose run --rm web mix do ecto.create, ecto.migrate
+
+#### Run all services
+
+    docker-compose up
+
+Use -d to run in the background. Use --build to ensure images are rebuilt. Use docker-compose down to stop all services.
+
+HTTP endpoint available at: http://localhost:4000/
+Or you can check with:
+
+    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/:ip_address
+
+#### Attach iex
+
+
+    docker-compose run --rm web bash
+#### Attach session
+
+    docker attach (docker ps -lq)
+  #### To populate the Parser service
+ This will create data with sample CSV.
+
+      docker-compose run --rm web bash
+      iex -S mix
+ 1. You can create a process with sample data as:
+
+      iex> Parser.init
+      [info] Import completed, result: %{errors: 996, success: 4, time_elapsed: 108}
+2. Or with a CSV placed in parser/priv/NAME.csv
+
+      iex> Parser.init "DIR/Name.csv"
+      [info] Import completed, result: %{errors: XXX, success: XXX, time_elapsed: XXX}
+Then in your favorite terminal
+
+    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/38.111.125.236
+
+#### Run integration tests
+
+    docker-compose run --rm web mix test
+
+
+## Deploy
+This project is stored in heroku, you can check in https://boiling-citadel-18890.herokuapp.com/api.
+
 ## Process and choices
 
 ### CSV processing
@@ -73,60 +134,3 @@ There are some problems with this approach, such as:
 2. For large projects maintenance is complex, and decoupling applications is difficult;
 
 **TL; DR** This test was the most complex tests I ever received, but it was nice to solve and think in different cases.
-
-## How to run?
-
-### Get Started
-To run this project you, docker and docker-compose need to be installed on your machine.
-
-#### Clone this repository
-
-    git clone git@github.com:pedromcorreia/find_hotel.git
-    cd find_hotel
-
-#### Build project with docker
-
-    docker-compose build
-
-#### Create database and run migrations
-
-    docker-compose run --rm web mix do ecto.create, ecto.migrate
-
-#### Run all services
-
-    docker-compose up
-
-Use -d to run in the background. Use --build to ensure images are rebuilt. Use docker-compose down to stop all services.
-
-HTTP endpoint available at: http://localhost:4000/
-Or you can check with:
-
-    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/:ip_address
-
-#### Attach iex
-
-
-    docker-compose run --rm web bash
-#### Attach session
-
-    docker attach (docker ps -lq)
-  #### To populate the Parser service
- This will create data with sample CSV.
-
-      docker-compose run --rm web bash
-      iex -S mix
- 1. You can create a process with sample data as:
-
-      iex> Parser.init
-      [info] Import completed, result: %{errors: 996, success: 4, time_elapsed: 108}
-2. Or with a CSV placed in parser/priv/NAME.csv
-
-      iex> Parser.init "DIR/Name.csv"
-      [info] Import completed, result: %{errors: XXX, success: XXX, time_elapsed: XXX}
-Then in your favorite terminal
-
-    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/38.111.125.236
-
-#### Run integration tests
-
-    docker-compose run --rm web mix test

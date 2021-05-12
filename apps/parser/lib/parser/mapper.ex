@@ -47,7 +47,6 @@ defmodule Parser.Mapper do
 
     path
     |> Utils.parse_csv()
-    |> Enum.take(1000)
     |> Task.async_stream(fn row ->
       row
       |> Utils.parse_row(columns)
