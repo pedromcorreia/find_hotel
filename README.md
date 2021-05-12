@@ -61,6 +61,8 @@ Then in your favorite terminal
 
 ## Deploy
 This project is stored in heroku, you can check in https://boiling-citadel-18890.herokuapp.com/api.
+Example:
+curl --request GET --url https://boiling-citadel-18890.herokuapp.com/api/coordinates/ip_address/38.111.125.236
 
 ## Process and choices
 
