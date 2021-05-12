@@ -1,9 +1,7 @@
-
 # Find Hotel Test
+I tried to divide my resolution in a linear progression with my reasoning, problems faced, and so on.
 
-## Process
-
-> I tried to divide my resolution in a linear progression with my reasoning, problems faced, and so on.
+## Process and choices
 
 ### CSV processing
 
@@ -43,6 +41,26 @@ However, I noticed some problems with this approach that I have been working wit
 
 Okay, knowing these problems, we could go for an approach to use [Oban] (https://github.com/sorentwo/oban), he persists his workers inside Postgres, we can let him know when to run or not a certain process, besides that we can use it as a cronjob, the choice of it made me safer when viewing jobs running, problems that I listed with the choice of Genserver and synchronous use, in addition, it was the fastest process.
 
+### Cronjob
+
+As part of requirements is to think in a process to run a schedule job, with Oban we can use as a  [Cronjob](https://github.com/sorentwo/oban#periodic-jobs)  adding a new module "Parser.Cron.CoordinateCron" that will follow the config rules defined in "config/config.exs" with:
+
+    config :parser, Oban,
+      repo: Parser.Repo,
+      plugins: [
+        {Oban.Plugins.Cron,
+         crontab: [
+           {"@daily", Parser.Cron.CoordinateCron}
+         ]}
+      ]
+
+Or we can configure as a scheduled job, the default Parser configuration is 5 minutes, you can change in config/config.ex
+
+    config :parser,
+      schedule_job_time: 300
+
+So every process will return with a status: "scheduled".
+
 ### Project
 
 Okay, but I realized one of the specifications was that the resolution has two applications, a Parser to process the files and a web to consume the Parser's data, my first idea was to create two applications, a web with only phoenix and another ecto project containing the whole process, however, one of the points that most intrigued me, is that the repository should be private, to get around this, a long time ago, 2015, I worked with an Umbrella project, very similar where we had a web interface, and it consumed the data from a Parser, so that was my choice.
@@ -61,35 +79,54 @@ There are some problems with this approach, such as:
 ### Get Started
 To run this project you, docker and docker-compose need to be installed on your machine.
 
-Clone this repository
+#### Clone this repository
 
     git clone git@github.com:pedromcorreia/find_hotel.git
     cd find_hotel
 
-Build project with docker
+#### Build project with docker
 
     docker-compose build
 
-Create database and run migrations
+#### Create database and run migrations
 
     docker-compose run --rm web mix do ecto.create, ecto.migrate
 
-Run all services
+#### Run all services
 
     docker-compose up
 
 Use -d to run in the background. Use --build to ensure images are rebuilt. Use docker-compose down to stop all services.
 
-Run integration tests
-
-    docker-compose run --rm web mix test
-
 HTTP endpoint available at: http://localhost:4000/
+Or you can check with:
 
-Attach iex
+    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/:ip_address
+
+#### Attach iex
 
 
     docker-compose run --rm web bash
-Attach session
+#### Attach session
 
     docker attach (docker ps -lq)
+  #### To populate the Parser service
+ This will create data with sample CSV.
+
+      docker-compose run --rm web bash
+      iex -S mix
+ 1. You can create a process with sample data as:
+
+      iex> Parser.init
+      [info] Import completed, result: %{errors: 996, success: 4, time_elapsed: 108}
+2. Or with a CSV placed in parser/priv/NAME.csv
+
+      iex> Parser.init "DIR/Name.csv"
+      [info] Import completed, result: %{errors: XXX, success: XXX, time_elapsed: XXX}
+Then in your favorite terminal
+
+    curl --request GET --url http://localhost:4000/api/coordinates/ip_address/38.111.125.236
+
+#### Run integration tests
+
+    docker-compose run --rm web mix test

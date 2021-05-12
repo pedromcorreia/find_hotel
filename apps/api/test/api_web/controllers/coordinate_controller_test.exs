@@ -1,7 +1,6 @@
 defmodule ApiWeb.CoordinateControllerTest do
   use ApiWeb.ConnCase
 
-  alias Parser.Geolocations
   alias Parser.Geolocations.Coordinate
   alias Parser.Repo
 
@@ -30,7 +29,7 @@ defmodule ApiWeb.CoordinateControllerTest do
 
   describe "ip_address" do
     test "get coordinates by ip_address", %{conn: conn} do
-      coordinate = create_coordinate()
+      create_coordinate()
       conn = get(conn, Routes.ip_address_path(conn, :ip_address, "68.153.157.57"))
 
       assert response = json_response(conn, 200)["data"]
@@ -44,7 +43,7 @@ defmodule ApiWeb.CoordinateControllerTest do
     end
 
     test "refute request by wrong ip_address", %{conn: conn} do
-      coordinate = create_coordinate()
+      create_coordinate()
       conn = get(conn, Routes.ip_address_path(conn, :ip_address, -1))
 
       assert json_response(conn, 200)["data"] ==

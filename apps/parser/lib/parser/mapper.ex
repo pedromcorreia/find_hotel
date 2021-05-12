@@ -6,6 +6,7 @@ defmodule Parser.Mapper do
   """
   require Logger
   alias Parser.Mapper.Utils
+  alias Parser.Repo.Utils, as: UtilsRepo
 
   @inital_result %{errors: 0, success: 0}
 
@@ -46,10 +47,11 @@ defmodule Parser.Mapper do
 
     path
     |> Utils.parse_csv()
+    |> Enum.take(1000)
     |> Task.async_stream(fn row ->
       row
       |> Utils.parse_row(columns)
-      |> Utils.insert_row(schema)
+      |> UtilsRepo.insert(schema)
     end)
     |> result_process()
   end

@@ -3,7 +3,7 @@ defmodule Parser do
   Documentation for `Parser`.
   Create new job to parse data and load in database.
   """
-  @path Path.expand("apps/parser/priv/data_dump.csv", __DIR__)
+  @path Path.expand("../priv/data_dump.csv", __DIR__)
 
   @doc """
   Receive a path, create a job to perform async with oban.
@@ -21,9 +21,12 @@ defmodule Parser do
   """
   @spec init(String.t()) :: {:ok, map()}
   def init(path \\ @path) do
-    Parser.Workers.enqueue_job(Parser.Workers.CoordinateWorker, %{
-      path: path,
-      count: 0
-    })
+    Parser.Workers.enqueue_job(
+      Parser.Workers.CoordinateWorker,
+      %{
+        path: path,
+        count: 0
+      }
+    )
   end
 end

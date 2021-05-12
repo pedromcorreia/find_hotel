@@ -4,7 +4,7 @@ config :parser, Parser.Repo,
   username: "postgres",
   password: "postgres",
   database: "parser_test",
-  hostname: "localhost",
+  hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :parser, Oban,

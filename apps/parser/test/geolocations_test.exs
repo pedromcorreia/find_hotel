@@ -2,7 +2,7 @@ defmodule Parser.GeolocationsTest do
   use Parser.RepoCase
 
   alias Parser.Geolocations
-  alias Parser.Mapper.Utils
+  alias Parser.Repo.Utils
 
   describe "coordinates" do
     alias Parser.Geolocations.Coordinate
@@ -18,7 +18,7 @@ defmodule Parser.GeolocationsTest do
     }
 
     test "get_coordinate_by_ip_address/1 returns coordinate by ip_address" do
-      {:ok, coordinate} = Utils.insert_row(@valid_attrs, Coordinate)
+      {:ok, coordinate} = Utils.insert(@valid_attrs, Coordinate)
       assert Geolocations.get_coordinate_by_ip_address(coordinate.ip_address) == coordinate
     end
 

@@ -4,7 +4,6 @@ defmodule Parser.Mapper.Utils do
   Module responsible to parse Csv or row data using NimbleCSV
   """
 
-  alias Parser.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
   @doc """
@@ -80,33 +79,6 @@ defmodule Parser.Mapper.Utils do
     row
     |> Stream.with_index()
     |> Map.new(fn {val, num} -> {column_names[num], val} end)
-  end
-
-  @doc """
-  Documentation: insert_row
-
-  Receive a row and struct, then insert in struct table.
-  Response with `{:ok, struct}` or  `{:error, struct}`
-
-  ## Examples
-
-  iex> Parser.Mapper.Utils.insert_row(%{
-    city: "DuBuquemouth",
-    country: "Nepal",
-    country_code: "SI",
-    ip_address: "200.106.141.15",
-    latitude: "-84.87503094689836",
-    longitude: "7.206435933364332",
-    mystery_value: "7823011346"
-  },Parser.Geolocations.Coordinate)
-  {:ok, %Parser.Geolocations.Coordinate{}}
-  """
-  @spec insert_row(map(), any()) :: {:ok, map()} | {:error, map()}
-  def insert_row(row, model) do
-    model
-    |> struct
-    |> model.changeset(row)
-    |> Repo.insert()
   end
 
   @doc """
