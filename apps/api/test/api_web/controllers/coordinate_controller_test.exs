@@ -1,7 +1,7 @@
 defmodule ApiWeb.CoordinateControllerTest do
   use ApiWeb.ConnCase
 
-  alias Parser.Geolocations.Coordinate
+  alias Parser.Schemas.Coordinate
   alias Parser.Repo
 
   @valid_attrs %{

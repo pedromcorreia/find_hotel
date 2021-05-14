@@ -1,7 +1,7 @@
-defmodule Parser.Geolocations.CoordinateTest do
+defmodule Parser.Schemas.CoordinateTest do
   use Parser.RepoCase
 
-  alias Parser.Geolocations.Coordinate
+  alias Parser.Schemas.Coordinate
 
   @valid_attrs %{
     ip_address: "68.153.157.57",

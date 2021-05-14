@@ -1,4 +1,4 @@
-defmodule Parser.Geolocations.Coordinate do
+defmodule Parser.Schemas.Coordinate do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset

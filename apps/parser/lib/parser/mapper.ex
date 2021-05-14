@@ -18,13 +18,13 @@ defmodule Parser.Mapper do
 
   ## Examples
 
-      iex> Mapper.run("path", Parser.Geolocations.Coordinate)
+      iex> Mapper.run("path", Parser.Schemas.Coordinate)
       {:ok, %(time_elapsed: 1, errors: errors 1, success: 1}}
 
       iex> Mapper.run("path", InvalidSchema)
       {:ok, %(time_elapsed: 1, errors: errors 2, success: 0}}
 
-      iex> Mapper.run("invalid_path", Parser.Geolocations.Coordinate)
+      iex> Mapper.run("invalid_path", Parser.Schemas.Coordinate)
       {:error, :invalid_path}
 
   """

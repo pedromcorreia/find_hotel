@@ -5,7 +5,7 @@ defmodule Parser.Workers.CoordinateWorker do
 
   require Logger
   use Oban.Worker, queue: :default, max_attempts: 5
-  alias Parser.Geolocations.Coordinate
+  alias Parser.Schemas.Coordinate
 
   @doc """
   Perform asynchronously Parser.Mapper.run with giver params and Coordinate.

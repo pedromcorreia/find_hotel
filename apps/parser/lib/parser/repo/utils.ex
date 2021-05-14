@@ -22,14 +22,31 @@ defmodule Parser.Repo.Utils do
     latitude: "-84.87503094689836",
     longitude: "7.206435933364332",
     mystery_value: "7823011346"
-  },Parser.Geolocations.Coordinate)
-  {:ok, %Parser.Geolocations.Coordinate{}}
+  },Parser.Schemas.Coordinate)
+  {:ok, %Parser.Schemas.Coordinate{}}
   """
   @spec insert(map(), any()) :: {:ok, map()} | {:error, map()}
-  def insert(data, model) do
-    model
+  def insert(data, schema) do
+    schema
     |> struct
-    |> model.changeset(data)
+    |> schema.changeset(data)
     |> Repo.insert()
+  end
+
+  @doc """
+  Gets a single record by any params.
+  Or respond with nil.
+
+  ## Examples
+
+  iex> get_by_params(Coordinate, %{ip_address: "38.111.125.236"})
+  %Coordinate{}
+
+  iex> get_by_params(Coordinate, %{ip_address: nil})
+  nil
+
+  """
+  def get_by_params(schema, params) when is_list(params) do
+    Repo.get_by(schema, params)
   end
 end
