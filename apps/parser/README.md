@@ -32,8 +32,8 @@ mix do ecto.create, ecto.migrate
 Parser aims to assist a web project by promoting an interface to access the database through searches by ip and with its result its stored data.
 
 ```elixir
-iex> Parser.Geolocations.get_coordinate_by_ip_address("38.111.125.236")
-%Parser.Geolocations.Coordinate{
+iex> Parser.Utils.get_by_params(Parser.Schemas.Coordinate, ip_address: ip_address)
+%Parser.Schemas.Coordinate{
   __meta__: #Ecto.Schema.Metadata<:loaded, "coordinates">,
   city: "Sethfurt",
   country: "Bahrain",
